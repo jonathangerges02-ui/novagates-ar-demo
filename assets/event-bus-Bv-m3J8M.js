@@ -1,0 +1,2 @@
+var n=Object.defineProperty;var l=(s,e,r)=>e in s?n(s,e,{enumerable:!0,configurable:!0,writable:!0,value:r}):s[e]=r;var t=(s,e,r)=>l(s,typeof e!="symbol"?e+"":e,r);class a{constructor(){t(this,"listeners",new Set)}on(e){return this.listeners.add(e),()=>this.listeners.delete(e)}emit(e){for(const r of this.listeners)try{r(e)}catch(i){console.error("[nova-ar-viewer] runtime listener threw",i)}}clear(){this.listeners.clear()}size(){return this.listeners.size}}export{a as R};
+//# sourceMappingURL=event-bus-Bv-m3J8M.js.map

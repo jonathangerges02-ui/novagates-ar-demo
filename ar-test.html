@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>AR isolation test</title>
+    <script
+      type="module"
+      src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"
+    ></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #20242c;
+        font: 13px/1.4 system-ui, sans-serif;
+        color: #fff;
+      }
+      model-viewer {
+        width: 100vw;
+        height: 70vh;
+        display: block;
+        background: #2b313b;
+      }
+      #log {
+        padding: 8px 12px;
+        white-space: pre-wrap;
+        background: #000;
+        height: 30vh;
+        overflow: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <model-viewer
+      id="mv"
+      src="/models/wall-lamp-1.glb"
+      ios-src="/models/wall-lamp-1.usdz"
+      ar
+      ar-modes="scene-viewer quick-look"
+      camera-controls
+      auto-rotate
+      shadow-intensity="1"
+      environment-image="neutral"
+      reveal="auto"
+      loading="eager"
+      alt="wall lamp"
+    ></model-viewer>
+    <div id="log"></div>
+    <script>
+      const log = document.getElementById('log');
+      const L = (m) => {
+        log.textContent += m + '\n';
+      };
+      // WebGL availability (the #1 reason a model-viewer preview is black)
+      try {
+        const c = document.createElement('canvas');
+        const gl2 = c.getContext('webgl2');
+        const gl1 = gl2 || c.getContext('webgl');
+        L('WebGL2: ' + !!gl2 + ' | WebGL: ' + !!gl1);
+        if (gl1) {
+          const dbg = gl1.getExtension('WEBGL_debug_renderer_info');
+          L('GPU: ' + (dbg ? gl1.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : 'hidden'));
+        }
+      } catch (e) {
+        L('WebGL check threw: ' + e.message);
+      }
+      const mv = document.getElementById('mv');
+      mv.addEventListener('load', () => L('✓ MODEL LOADED — you should see the lamp above'));
+      mv.addEventListener('error', (e) => L('✗ model error: ' + JSON.stringify(e.detail || {})));
+      mv.addEventListener('progress', (e) =>
+        L('progress: ' + Math.round((e.detail.totalProgress || 0) * 100) + '%'),
+      );
+      mv.addEventListener('ar-status', (e) => L('ar-status: ' + e.detail.status));
+      window.addEventListener('error', (e) => L('window error: ' + e.message));
+      window.addEventListener('unhandledrejection', (e) =>
+        L('promise rejection: ' + (e.reason && e.reason.message ? e.reason.message : e.reason)),
+      );
+      setTimeout(() => L('model-viewer registered: ' + !!customElements.get('model-viewer')), 1500);
+    </script>
+  </body>
+</html>

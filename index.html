@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-theme="auto">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Novagates AR Viewer</title>
+    <style>
+      /* Base reset — viewer occupies 100% of the embed iframe. */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        font-family:
+          system-ui,
+          -apple-system,
+          'Segoe UI',
+          'Noto Sans Arabic',
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      /* Light theme (default) */
+      :root[data-theme='light'] {
+        --bg: #ffffff;
+        --panel: #f8fafc;
+        --border: #e2e8f0;
+        --ink: #0f172a;
+        --ink-dim: #64748b;
+        --accent: #2563eb;
+        --accent-ink: #ffffff;
+        --error: #dc2626;
+      }
+      /* Dark theme */
+      :root[data-theme='dark'] {
+        --bg: #0b0d11;
+        --panel: #121620;
+        --border: #1f2937;
+        --ink: #f3f5f9;
+        --ink-dim: #93a0b4;
+        --accent: #76c5ff;
+        --accent-ink: #002439;
+        --error: #ff6b6b;
+      }
+      /* Auto = follow prefers-color-scheme */
+      @media (prefers-color-scheme: dark) {
+        :root[data-theme='auto'] {
+          --bg: #0b0d11;
+          --panel: #121620;
+          --border: #1f2937;
+          --ink: #f3f5f9;
+          --ink-dim: #93a0b4;
+          --accent: #76c5ff;
+          --accent-ink: #002439;
+          --error: #ff6b6b;
+        }
+      }
+      @media (prefers-color-scheme: light) {
+        :root[data-theme='auto'] {
+          --bg: #ffffff;
+          --panel: #f8fafc;
+          --border: #e2e8f0;
+          --ink: #0f172a;
+          --ink-dim: #64748b;
+          --accent: #2563eb;
+          --accent-ink: #ffffff;
+          --error: #dc2626;
+        }
+      }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+      }
+      [dir='rtl'] {
+        text-align: right;
+      }
+      #app {
+        height: 100%;
+        width: 100%;
+      }
+      /* Honour the OS reduced-motion pref — kill any animations &
+         transitions across the viewer. Item rotations driven by RAF
+         are read separately via window.matchMedia(...) in `ar/`. */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.001ms !important;
+        }
+      }
+      /* WCAG 2.5.5 — 44 × 44 CSS-px target minimum for any actionable
+         element rendered by the viewer's React UI. */
+      button,
+      [role='button'],
+      a.cta {
+        min-height: 2.75rem;
+        min-width: 2.75rem;
+      }
+    </style>
+    <script type="module" crossorigin src="./assets/index-C79SWM1X.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
